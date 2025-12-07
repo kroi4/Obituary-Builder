@@ -364,10 +364,9 @@ function generatePreview() {
     const frameClasses = {
         'simple': 'frame-simple',
         'double': 'frame-double',
-        'thick': 'frame-thick',
-        'ornate': 'frame-ornate'
+        'thick': 'frame-thick'
     };
-    const frameClass = frameClasses[data.frameStyle] || 'frame-simple';
+    const frameClass = frameClasses[data.frameStyle] || 'frame-thick';
     
     const previewHTML = `
         <div class="obituary-border ${frameClass}">
@@ -408,6 +407,9 @@ function generatePreview() {
     
     document.getElementById('obituaryPreview').innerHTML = previewHTML;
     document.getElementById('obituaryFinal').innerHTML = previewHTML;
+    
+    // Apply current styles
+    updatePreviewStyle();
 }
 
 // Print Obituary
@@ -436,8 +438,57 @@ async function downloadAsImage() {
     }
 }
 
+// Update Preview Style
+function updatePreviewStyle() {
+    const preview = document.getElementById('obituaryPreview');
+    const font = document.getElementById('previewFont').value;
+    const frame = document.getElementById('previewFrame').value;
+    const size = document.getElementById('previewSize').value;
+    
+    applyStyles(preview, font, frame, size);
+    
+    // Sync with final controls
+    document.getElementById('finalFont').value = font;
+    document.getElementById('finalFrame').value = frame;
+    document.getElementById('finalSize').value = size;
+    
+    updateFinalStyle();
+}
+
+// Update Final Style
+function updateFinalStyle() {
+    const final = document.getElementById('obituaryFinal');
+    const font = document.getElementById('finalFont').value;
+    const frame = document.getElementById('finalFrame').value;
+    const size = document.getElementById('finalSize').value;
+    
+    applyStyles(final, font, frame, size);
+}
+
+// Apply styles to preview element
+function applyStyles(element, font, frame, size) {
+    // Remove all font classes
+    element.classList.remove('font-frank', 'font-david', 'font-assistant', 'font-heebo', 'font-rubik');
+    // Add selected font class
+    element.classList.add('font-' + font);
+    
+    // Update frame on the border element
+    const border = element.querySelector('.obituary-border');
+    if (border) {
+        border.classList.remove('frame-simple', 'frame-double', 'frame-thick');
+        border.classList.add('frame-' + frame);
+    }
+    
+    // Remove all size classes
+    element.classList.remove('size-small', 'size-medium', 'size-large');
+    // Add selected size class
+    element.classList.add('size-' + size);
+}
+
 // Make functions globally available
 window.goToStep = goToStep;
 window.printObituary = printObituary;
 window.downloadAsImage = downloadAsImage;
+window.updatePreviewStyle = updatePreviewStyle;
+window.updateFinalStyle = updateFinalStyle;
 

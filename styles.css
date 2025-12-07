@@ -392,7 +392,7 @@ body {
 .checkbox-label {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     cursor: pointer;
     font-size: 1rem;
 }
@@ -406,8 +406,8 @@ body {
 
 .checkbox-custom {
     flex-shrink: 0;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     border-radius: var(--radius-sm);
     border: 2px solid var(--color-border);
     background: var(--color-bg-secondary);
@@ -431,7 +431,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--color-bg);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     line-height: 1;
 }
@@ -496,6 +496,47 @@ body {
     font-size: 1.1em;
 }
 
+/* Preview Controls */
+.preview-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--color-bg-card);
+    border-radius: var(--radius-lg);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.control-group label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.control-group select {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    cursor: pointer;
+    min-width: 140px;
+}
+
+.control-group select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
 /* Preview Container */
 .preview-container {
     display: flex;
@@ -546,37 +587,60 @@ body {
     border: 6px solid #1a1a1a;
 }
 
-/* Ornate Frame */
-.obituary-border.frame-ornate {
-    border: 2px solid #1a1a1a;
-    box-shadow: 
-        inset 0 0 0 3px #fff,
-        inset 0 0 0 5px #1a1a1a,
-        inset 0 0 0 8px #fff,
-        inset 0 0 0 10px #1a1a1a;
+/* Font Classes */
+.obituary-preview.font-frank {
+    font-family: 'Frank Ruhl Libre', serif;
 }
 
-.obituary-border.frame-ornate::before,
-.obituary-border.frame-ornate::after {
-    content: '✦';
-    position: absolute;
-    font-size: 16px;
-    color: #1a1a1a;
-    background: #fff;
-    padding: 0 8px;
+.obituary-preview.font-david {
+    font-family: 'David Libre', serif;
 }
 
-.obituary-border.frame-ornate::before {
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
+.obituary-preview.font-assistant {
+    font-family: 'Assistant', sans-serif;
 }
 
-.obituary-border.frame-ornate::after {
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
+.obituary-preview.font-heebo {
+    font-family: 'Heebo', sans-serif;
 }
+
+.obituary-preview.font-rubik {
+    font-family: 'Rubik', sans-serif;
+}
+
+/* Size Classes */
+.obituary-preview.size-small {
+    transform: scale(0.85);
+    transform-origin: top center;
+}
+
+.obituary-preview.size-small .obituary-name {
+    font-size: 2.4rem;
+}
+
+.obituary-preview.size-small .obituary-opening,
+.obituary-preview.size-small .obituary-relationship {
+    font-size: 1.1rem;
+}
+
+.obituary-preview.size-medium .obituary-name {
+    font-size: 3rem;
+}
+
+.obituary-preview.size-large {
+    transform: scale(1.1);
+    transform-origin: top center;
+}
+
+.obituary-preview.size-large .obituary-name {
+    font-size: 3.5rem;
+}
+
+.obituary-preview.size-large .obituary-opening,
+.obituary-preview.size-large .obituary-relationship {
+    font-size: 1.5rem;
+}
+
 
 .obituary-basd {
     position: absolute;
