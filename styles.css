@@ -195,7 +195,7 @@ body {
     margin-bottom: 24px;
 }
 
-.form-group label {
+.form-group > label:not(.checkbox-label):not(.radio-label) {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
@@ -408,8 +408,9 @@ body {
 /* Checkbox */
 .checkbox-label {
     display: inline-flex;
+    flex-direction: row;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     cursor: pointer;
     font-size: 1rem;
     padding: 8px 0;
