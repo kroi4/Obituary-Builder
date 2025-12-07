@@ -636,37 +636,84 @@ body {
     font-family: 'Rubik', sans-serif;
 }
 
-/* Size Classes */
-.obituary-preview.size-small {
-    transform: scale(0.85);
-    transform-origin: top center;
+/* Size Classes - Font sizes only */
+.obituary-preview.size-small .obituary-name {
+    font-size: 2.2rem;
 }
 
-.obituary-preview.size-small .obituary-name {
-    font-size: 2.4rem;
+.obituary-preview.size-small .obituary-zal {
+    font-size: 1.1rem;
 }
 
 .obituary-preview.size-small .obituary-opening,
 .obituary-preview.size-small .obituary-relationship {
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
+.obituary-preview.size-small .obituary-funeral-info {
+    font-size: 0.9rem;
+}
+
+.obituary-preview.size-small .obituary-shiva,
+.obituary-preview.size-small .obituary-signature {
+    font-size: 0.9rem;
+}
+
+.obituary-preview.size-small .obituary-basd {
+    font-size: 0.85rem;
+}
+
+/* Medium - default sizes */
 .obituary-preview.size-medium .obituary-name {
     font-size: 3rem;
 }
 
-.obituary-preview.size-large {
-    transform: scale(1.1);
-    transform-origin: top center;
+.obituary-preview.size-medium .obituary-zal {
+    font-size: 1.5rem;
 }
 
+.obituary-preview.size-medium .obituary-opening,
+.obituary-preview.size-medium .obituary-relationship {
+    font-size: 1.3rem;
+}
+
+.obituary-preview.size-medium .obituary-funeral-info {
+    font-size: 1.15rem;
+}
+
+.obituary-preview.size-medium .obituary-shiva {
+    font-size: 1rem;
+}
+
+.obituary-preview.size-medium .obituary-signature {
+    font-size: 1.5rem;
+}
+
+/* Large */
 .obituary-preview.size-large .obituary-name {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
+}
+
+.obituary-preview.size-large .obituary-zal {
+    font-size: 1.8rem;
 }
 
 .obituary-preview.size-large .obituary-opening,
 .obituary-preview.size-large .obituary-relationship {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+}
+
+.obituary-preview.size-large .obituary-funeral-info {
+    font-size: 1.4rem;
+}
+
+.obituary-preview.size-large .obituary-shiva,
+.obituary-preview.size-large .obituary-signature {
+    font-size: 1.3rem;
+}
+
+.obituary-preview.size-large .obituary-basd {
+    font-size: 1.2rem;
 }
 
 
