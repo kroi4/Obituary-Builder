@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>יוצר מודעות אבל</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&family=Frank+Ruhl+Libre:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-decoration"></div>
+            <h1>יוצר מודעות אבל</h1>
+            <p class="subtitle">מערכת ליצירת מודעות אבל בכבוד ובהידור</p>
+        </header>
+
+        <!-- Progress Steps -->
+        <div class="progress-container">
+            <div class="progress-step active" data-step="1">
+                <div class="step-circle">1</div>
+                <span class="step-label">מילוי פרטים</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="2">
+                <div class="step-circle">2</div>
+                <span class="step-label">תצוגה מקדימה</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="3">
+                <div class="step-circle">3</div>
+                <span class="step-label">הדפסה ושיתוף</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Step 1: Form -->
+            <section class="form-section active" id="step1">
+                <form id="obituaryForm">
+                    <!-- Frame Style -->
+                    <div class="form-group">
+                        <label for="frameStyle">סגנון מסגרת</label>
+                        <select id="frameStyle">
+                            <option value="simple">מסגרת פשוטה</option>
+                            <option value="double">מסגרת כפולה</option>
+                            <option value="thick">מסגרת עבה</option>
+                            <option value="ornate">מסגרת מעוטרת</option>
+                        </select>
+                    </div>
+
+                    <!-- Basd Option -->
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="showBasd" checked>
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">הצג בס"ד</span>
+                        </label>
+                    </div>
+
+                    <!-- Opening Line -->
+                    <div class="form-group">
+                        <label for="openingLine">שורת פתיחה</label>
+                        <select id="openingLine" required>
+                            <option value="בצער רב וביגון קודר אנו מודיעים על פטירתו/פטירתה של" selected>בצער רב וביגון קודר אנו מודיעים על פטירתו/פטירתה של</option>
+                            <option value="אנו מודיעים על פטירתו/פטירתה של">אנו מודיעים על פטירתו/פטירתה של</option>
+                            <option value="בצער עמוק אנו מודיעים על פטירתו/פטירתה של">בצער עמוק אנו מודיעים על פטירתו/פטירתה של</option>
+                            <option value="הלומי צער וכואבים אנו מודיעים על פטירתו/פטירתה של">הלומי צער וכואבים אנו מודיעים על פטירתו/פטירתה של</option>
+                            <option value="המומים, כואבים ודואבים אנו מודיעים על פטירתו/פטירתה של">המומים, כואבים ודואבים אנו מודיעים על פטירתו/פטירתה של</option>
+                        </select>
+                    </div>
+
+                    <!-- Relationship Description -->
+                    <div class="form-group">
+                        <label for="relationship">תיאור קרבה משפחתית</label>
+                        <input type="text" id="relationship" placeholder='לדוגמה: בעלי אבינו וסבנו, אמנו סבתנו'>
+                    </div>
+
+                    <!-- Gender Selection -->
+                    <div class="form-group">
+                        <label>מין הנפטר/ת</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="male" checked>
+                                <span class="radio-custom"></span>
+                                זכר
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="female">
+                                <span class="radio-custom"></span>
+                                נקבה
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="form-group">
+                        <label for="title">תואר (אופציונלי)</label>
+                        <select id="title">
+                            <option value="">ללא תואר</option>
+                            <option value="ד״ר">ד״ר</option>
+                            <option value="פרופ׳">פרופ׳</option>
+                            <option value="עו״ד">עו״ד</option>
+                            <option value="רב">רב</option>
+                            <option value="הרב">הרב</option>
+                            <option value="רס״ן">רס״ן</option>
+                            <option value="סא״ל">סא״ל</option>
+                            <option value="אל״מ">אל״מ</option>
+                            <option value="תא״ל">תא״ל</option>
+                            <option value="אלוף">אלוף</option>
+                        </select>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="fullName">שם מלא של הנפטר/ת</label>
+                        <input type="text" id="fullName" placeholder="הזינו את השם המלא" required>
+                    </div>
+
+                    <!-- Endearment - תואר חיבה -->
+                    <div class="form-group">
+                        <label for="endearment">תואר חיבה (מופיע אחרי תיאור הקרבה)</label>
+                        <select id="endearment">
+                            <option value="">ללא תואר</option>
+                            <option value="האהוב">האהוב/ה</option>
+                            <option value="היקר">היקר/ה</option>
+                            <option value="האהוב והיקר">האהוב/ה והיקר/ה</option>
+                            <option value="היקיר">היקיר/ה</option>
+                            <option value="custom">מותאם אישית...</option>
+                        </select>
+                    </div>
+
+                    <!-- Custom Endearment -->
+                    <div class="form-group hidden" id="customEndearmentGroup">
+                        <label for="customEndearment">תואר חיבה מותאם אישית</label>
+                        <input type="text" id="customEndearment" placeholder="הזינו תואר חיבה">
+                    </div>
+
+                    <!-- Date Section -->
+                    <div class="form-group date-section">
+                        <label>תאריך הפטירה</label>
+                        <div class="date-type-toggle">
+                            <button type="button" class="date-toggle active" data-type="gregorian">לועזי</button>
+                            <button type="button" class="date-toggle" data-type="hebrew">עברי</button>
+                        </div>
+                        
+                        <div class="date-inputs">
+                            <div class="date-input-group" id="gregorianDate">
+                                <input type="date" id="deathDateGregorian">
+                            </div>
+                            <div class="date-input-group hidden" id="hebrewDate">
+                                <div class="hebrew-date-selects">
+                                    <select id="hebrewDay">
+                                        <option value="">יום</option>
+                                    </select>
+                                    <select id="hebrewMonth">
+                                        <option value="">חודש</option>
+                                    </select>
+                                    <select id="hebrewYear">
+                                        <option value="">שנה</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="converted-date">
+                            <span class="converted-label">תאריך מקביל:</span>
+                            <span id="convertedDateDisplay">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Cemetery -->
+                    <div class="form-group">
+                        <label for="cemetery">בית העלמין</label>
+                        <input type="text" id="cemetery" placeholder="שם בית העלמין שבו תתקיים ההלוויה">
+                    </div>
+
+                    <!-- Funeral Time -->
+                    <div class="form-group">
+                        <label for="funeralTime">שעת ההלוויה (אופציונלי)</label>
+                        <input type="time" id="funeralTime">
+                    </div>
+
+                    <!-- Shiva Address -->
+                    <div class="form-group">
+                        <label for="shivaAddress">כתובת השבעה</label>
+                        <div class="form-group">
+                            <select id="shivaLocation">
+                                <option value="בבית המנוח">יושבים שבעה בבית המנוח</option>
+                                <option value="בבית המנוחה">יושבים שבעה בבית המנוחה</option>
+                                <option value="בבית">יושבים שבעה בבית</option>
+                                <option value="custom">טקסט מותאם אישית...</option>
+                            </select>
+                        </div>
+                        <div class="form-group hidden" id="customShivaLocationGroup">
+                            <input type="text" id="customShivaLocation" placeholder="טקסט מותאם אישית">
+                        </div>
+                        <div class="address-inputs">
+                            <input type="text" id="shivaStreet" placeholder="רחוב">
+                            <div class="address-row">
+                                <input type="text" id="shivaNumber" placeholder="מספר בית">
+                                <input type="text" id="shivaApartment" placeholder="דירה">
+                            </div>
+                            <div class="address-row">
+                                <input type="text" id="shivaEntrance" placeholder="כניסה">
+                                <input type="text" id="shivaFloor" placeholder="קומה">
+                            </div>
+                            <input type="text" id="shivaCity" placeholder="עיר">
+                        </div>
+                    </div>
+
+                    <!-- Signature -->
+                    <div class="form-group">
+                        <label for="signature">שורת חתימה</label>
+                        <input type="text" id="signature" placeholder="לדוגמה: משפחת כהן">
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="form-group">
+                        <label for="additionalNotes">הערות נוספות (אופציונלי)</label>
+                        <textarea id="additionalNotes" rows="3" placeholder="מידע נוסף שברצונכם להוסיף למודעה"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="goToStep(2)">
+                            המשך לתצוגה מקדימה
+                            <span class="btn-icon">←</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Step 2: Preview -->
+            <section class="form-section" id="step2">
+                <div class="preview-container">
+                    <div class="obituary-preview" id="obituaryPreview">
+                        <!-- Preview will be generated here -->
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="goToStep(1)">
+                        <span class="btn-icon">→</span>
+                        חזרה לעריכה
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="goToStep(3)">
+                        המשך להדפסה
+                        <span class="btn-icon">←</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Step 3: Print/Share -->
+            <section class="form-section" id="step3">
+                <div class="preview-container">
+                    <div class="obituary-preview final" id="obituaryFinal">
+                        <!-- Final preview will be generated here -->
+                    </div>
+                </div>
+                <div class="form-actions print-actions">
+                    <button type="button" class="btn btn-secondary" onclick="goToStep(2)">
+                        <span class="btn-icon">→</span>
+                        חזרה
+                    </button>
+                    <button type="button" class="btn btn-outline" onclick="downloadAsImage()">
+                        <span class="btn-icon">📥</span>
+                        הורדה כתמונה
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="printObituary()">
+                        <span class="btn-icon">🖨️</span>
+                        הדפסה
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>נוצר ברגישות ובכבוד לזכר הנפטרים</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="hebrew-date.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
