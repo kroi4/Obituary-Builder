@@ -392,7 +392,7 @@ body {
 .checkbox-label {
     display: inline-flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     cursor: pointer;
     font-size: 1rem;
 }
@@ -406,17 +406,19 @@ body {
 
 .checkbox-custom {
     flex-shrink: 0;
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border-radius: var(--radius-sm);
     border: 2px solid var(--color-border);
     background: var(--color-bg-secondary);
     position: relative;
     transition: var(--transition);
+    margin-left: 4px;
 }
 
 .checkbox-text {
     user-select: none;
+    padding-right: 2px;
 }
 
 .checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
@@ -431,7 +433,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     color: var(--color-bg);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     line-height: 1;
 }
