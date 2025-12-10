@@ -939,32 +939,75 @@ body {
 /* Print Styles */
 @media print {
     @page {
-        size: landscape;
+        size: A4 landscape;
         margin: 10mm;
     }
     
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
     body {
-        background: white;
+        background: white !important;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .app-container {
+        padding: 0;
+        max-width: none;
     }
     
     .app-header,
     .progress-container,
     .form-actions,
-    .app-footer {
+    .print-actions,
+    .preview-controls,
+    .app-footer,
+    #step1,
+    #step2 {
         display: none !important;
+    }
+    
+    #step3 {
+        display: block !important;
+    }
+    
+    .form-section {
+        animation: none;
+    }
+    
+    .main-content {
+        padding: 0;
     }
     
     .preview-container {
         padding: 0;
+        overflow: visible;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: auto;
     }
     
     .obituary-preview {
-        box-shadow: none;
-        width: 100%;
-        min-width: unset;
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: unset !important;
         border-radius: 0;
-        aspect-ratio: unset;
+        aspect-ratio: 1.4 / 1;
         height: auto;
+        margin: 0 auto;
+        page-break-inside: avoid;
+        transform: none !important;
+    }
+    
+    .obituary-preview.size-small,
+    .obituary-preview.size-medium,
+    .obituary-preview.size-large {
+        transform: none !important;
     }
 }
 

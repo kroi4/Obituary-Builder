@@ -397,7 +397,8 @@ function generatePreview() {
             funeralLine += `, ${data.hebrewDate}`;
         }
         if (data.gregorianDate) {
-            funeralLine += ` (${data.gregorianDate})`;
+            // Use LTR mark for proper parentheses display
+            funeralLine += ` <span dir="ltr">(${data.gregorianDate})</span>`;
         }
     }
     
@@ -465,7 +466,14 @@ function generatePreview() {
 
 // Print Obituary
 function printObituary() {
-    window.print();
+    // Make sure we're on step 3 for printing
+    const step3 = document.getElementById('step3');
+    step3.classList.add('active');
+    
+    // Small delay to ensure styles are applied
+    setTimeout(() => {
+        window.print();
+    }, 100);
 }
 
 // Download as Image
