@@ -397,8 +397,8 @@ function generatePreview() {
             funeralLine += `, ${data.hebrewDate}`;
         }
         if (data.gregorianDate) {
-            // Use LTR mark for proper parentheses display
-            funeralLine += ` <span dir="ltr">(${data.gregorianDate})</span>`;
+            // Use Unicode LTR embedding for proper parentheses display
+            funeralLine += ` \u200E(${data.gregorianDate})\u200E`;
         }
     }
     
@@ -466,14 +466,100 @@ function generatePreview() {
 
 // Print Obituary
 function printObituary() {
-    // Make sure we're on step 3 for printing
-    const step3 = document.getElementById('step3');
-    step3.classList.add('active');
+    // Create a new window with only the obituary
+    const printContent = document.getElementById('obituaryFinal').outerHTML;
+    const printWindow = window.open('', '_blank');
     
-    // Small delay to ensure styles are applied
-    setTimeout(() => {
-        window.print();
-    }, 100);
+    // Get current font and size classes
+    const obituaryEl = document.getElementById('obituaryFinal');
+    const fontClass = Array.from(obituaryEl.classList).find(c => c.startsWith('font-')) || 'font-frank';
+    const sizeClass = Array.from(obituaryEl.classList).find(c => c.startsWith('size-')) || 'size-medium';
+    
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="he" dir="rtl">
+        <head>
+            <meta charset="UTF-8">
+            <title>מודעת אבל</title>
+            <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=David+Libre:wght@400;500;700&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+            <style>
+                @page { size: A4 landscape; margin: 10mm; }
+                * { box-sizing: border-box; margin: 0; padding: 0; }
+                body { 
+                    display: flex; 
+                    justify-content: center; 
+                    align-items: center; 
+                    min-height: 100vh;
+                    background: white;
+                    font-family: 'Frank Ruhl Libre', serif;
+                }
+                .obituary-preview {
+                    width: 100%;
+                    max-width: 90vw;
+                    aspect-ratio: 1.4 / 1;
+                    background: #ffffff;
+                    color: #1a1a1a;
+                    padding: 25px;
+                    font-family: 'Frank Ruhl Libre', serif;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                }
+                .obituary-preview.font-frank { font-family: 'Frank Ruhl Libre', serif; }
+                .obituary-preview.font-david { font-family: 'David Libre', serif; }
+                .obituary-preview.font-assistant { font-family: 'Assistant', sans-serif; }
+                .obituary-preview.font-heebo { font-family: 'Heebo', sans-serif; }
+                .obituary-preview.font-rubik { font-family: 'Rubik', sans-serif; }
+                
+                .obituary-border { padding: 20px 30px; position: relative; flex: 1; display: flex; flex-direction: column; }
+                .obituary-border.frame-simple { border: 3px solid #1a1a1a; }
+                .obituary-border.frame-double { border: 3px double #1a1a1a; box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 7px #1a1a1a; }
+                .obituary-border.frame-thick { border: 6px solid #1a1a1a; }
+                
+                .obituary-basd { position: absolute; top: 10px; right: 15px; font-size: 1rem; font-weight: 500; }
+                .obituary-opening { font-size: 1.4rem; font-weight: 700; line-height: 1.6; margin-bottom: 5px; margin-top: 15px; }
+                .obituary-relationship { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+                .obituary-name-container { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 15px 0; }
+                .obituary-name { font-size: 3rem; font-weight: 700; line-height: 1.2; }
+                .obituary-zal { font-size: 1.5rem; font-weight: 400; }
+                .obituary-funeral-info { font-size: 1.15rem; font-weight: 600; margin: 15px 0; line-height: 1.8; }
+                .obituary-funeral-line { margin: 3px 0; }
+                .obituary-bottom-section { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 15px; }
+                .obituary-signature { font-size: 1.5rem; font-weight: 700; text-align: left; order: 2; }
+                .obituary-shiva { text-align: right; font-size: 1rem; line-height: 1.6; font-weight: 600; order: 1; }
+                .obituary-shiva-title { font-weight: 700; }
+                .obituary-notes { font-size: 0.9rem; font-style: italic; margin: 15px 0; padding: 10px; background: #f9f9f9; border-radius: 4px; }
+                
+                /* Size classes */
+                .size-small .obituary-name { font-size: 2.2rem; }
+                .size-small .obituary-zal { font-size: 1.1rem; }
+                .size-small .obituary-opening, .size-small .obituary-relationship { font-size: 1rem; }
+                .size-small .obituary-funeral-info { font-size: 0.9rem; }
+                .size-small .obituary-shiva, .size-small .obituary-signature { font-size: 0.9rem; }
+                
+                .size-large .obituary-name { font-size: 3.8rem; }
+                .size-large .obituary-zal { font-size: 1.8rem; }
+                .size-large .obituary-opening, .size-large .obituary-relationship { font-size: 1.6rem; }
+                .size-large .obituary-funeral-info { font-size: 1.4rem; }
+                .size-large .obituary-shiva, .size-large .obituary-signature { font-size: 1.3rem; }
+            </style>
+        </head>
+        <body>
+            <div class="obituary-preview ${fontClass} ${sizeClass}">
+                ${document.getElementById('obituaryFinal').innerHTML}
+            </div>
+            <script>
+                window.onload = function() {
+                    setTimeout(function() {
+                        window.print();
+                        window.close();
+                    }, 500);
+                };
+            </script>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
 }
 
 // Download as Image
