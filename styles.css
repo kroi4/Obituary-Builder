@@ -1059,36 +1059,35 @@ body {
     }
 }
 
-/* Responsive for preview */
+/* Force A4 landscape size when capturing */
+.obituary-preview.force-capture-size {
+    width: 800px !important;
+    min-width: 800px !important;
+    max-width: 800px !important;
+    height: 571px !important;
+    aspect-ratio: 1.4 / 1 !important;
+    padding: 25px !important;
+}
+
+.obituary-preview.force-capture-size .obituary-bottom-section {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+}
+
+.obituary-preview.force-capture-size .obituary-signature {
+    text-align: left !important;
+}
+
+.obituary-preview.force-capture-size .obituary-shiva {
+    text-align: right !important;
+}
+
+/* Responsive for preview (לא משנים את גודל המודעה עצמה – תמיד A4 לרוחב) */
 @media (max-width: 850px) {
     .preview-container {
         padding: 10px;
-    }
-    
-    .obituary-preview {
-        width: 100%;
-        min-width: unset;
-        aspect-ratio: unset;
-        padding: 15px;
-    }
-    
-    .obituary-name {
-        font-size: 2rem;
-    }
-    
-    .obituary-opening {
-        font-size: 1.1rem;
-    }
-    
-    .obituary-bottom-section {
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-    }
-    
-    .obituary-signature,
-    .obituary-shiva {
-        text-align: center;
+        overflow-x: auto;
     }
 }
 

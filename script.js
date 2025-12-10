@@ -612,19 +612,26 @@ async function downloadAsImage() {
             await document.fonts.ready;
         }
         
-        const rect = element.getBoundingClientRect();
+        // Add class to force A4 landscape size (overrides mobile CSS)
+        element.classList.add('force-capture-size');
+        
+        // Wait a moment for layout to settle
+        await new Promise(resolve => setTimeout(resolve, 150));
         
         const canvas = await html2canvas(element, {
             backgroundColor: '#ffffff',
-            scale: 2, // מספיק חד, פחות עיוותים
+            scale: 2,
             useCORS: true,
             letterRendering: true,
             logging: false,
-            width: rect.width,
-            height: rect.height,
+            width: 800,
+            height: 571,
             scrollX: -window.scrollX,
             scrollY: -window.scrollY
         });
+        
+        // Remove the force-capture class
+        element.classList.remove('force-capture-size');
         
         // Get deceased name and date for filename
         const fullName = document.getElementById('fullName').value || 'נפטר';
@@ -646,6 +653,9 @@ async function downloadAsImage() {
     } catch (error) {
         console.error('Error generating image:', error);
         alert('שגיאה ביצירת התמונה. נסו שוב.');
+        
+        // Make sure to remove the class even if there's an error
+        element.classList.remove('force-capture-size');
     }
 }
 
