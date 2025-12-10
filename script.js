@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeDateToggle();
     initializeEndearmentToggle();
     initializeShivaLocationToggle();
+    initializeAddressValidation();
     HebrewDate.initHebrewDateSelectors();
     initializeDateConversion();
     setDefaultDate();
@@ -90,6 +91,16 @@ function initializeShivaLocationToggle() {
         } else {
             customGroup.classList.add('hidden');
         }
+    });
+}
+
+// Initialize Address Validation
+function initializeAddressValidation() {
+    const shivaCity = document.getElementById('shivaCity');
+    
+    // Remove error styling when user starts typing in city field
+    shivaCity.addEventListener('input', () => {
+        shivaCity.classList.remove('input-error');
     });
 }
 
@@ -178,6 +189,9 @@ function validateStep(step) {
         const openingLine = document.getElementById('openingLine').value;
         const fullName = document.getElementById('fullName').value;
         
+        // Clear previous error states
+        document.getElementById('shivaCity').classList.remove('input-error');
+        
         if (!openingLine) {
             alert('נא לבחור שורת פתיחה');
             document.getElementById('openingLine').focus();
@@ -187,6 +201,23 @@ function validateStep(step) {
         if (!fullName.trim()) {
             alert('נא להזין את שם הנפטר/ת');
             document.getElementById('fullName').focus();
+            return false;
+        }
+        
+        // Validate shiva address: if any address field is filled, city is required
+        const shivaStreet = document.getElementById('shivaStreet').value.trim();
+        const shivaNumber = document.getElementById('shivaNumber').value.trim();
+        const shivaApartment = document.getElementById('shivaApartment').value.trim();
+        const shivaEntrance = document.getElementById('shivaEntrance').value.trim();
+        const shivaFloor = document.getElementById('shivaFloor').value.trim();
+        const shivaCity = document.getElementById('shivaCity').value.trim();
+        
+        const hasAddressDetails = shivaStreet || shivaNumber || shivaApartment || shivaEntrance || shivaFloor;
+        
+        if (hasAddressDetails && !shivaCity) {
+            document.getElementById('shivaCity').classList.add('input-error');
+            alert('נא להזין עיר לכתובת השבעה');
+            document.getElementById('shivaCity').focus();
             return false;
         }
         
@@ -261,9 +292,9 @@ function getFormData() {
     const shivaLocationSelect = document.getElementById('shivaLocation');
     let shivaLocationText = shivaLocationSelect.value;
     if (shivaLocationText === 'custom') {
-        shivaLocationText = document.getElementById('customShivaLocation').value;
+        shivaLocationText = document.getElementById('customShivaLocation').value.replace(/ /g, '&nbsp;');
     } else {
-        shivaLocationText = 'יושבים שבעה ' + shivaLocationText;
+        shivaLocationText = 'יושבים&nbsp;שבעה&nbsp;' + shivaLocationText.replace(/ /g, '&nbsp;');
     }
     
     // Build shiva address - dynamic single or multi-line based on content
@@ -370,45 +401,45 @@ function generatePreview() {
     const data = getFormData();
     
     // Build name with title
-    let fullNameDisplay = data.fullName;
+    let fullNameDisplay = data.fullName.replace(/ /g, '&nbsp;');
     if (data.title) {
-        fullNameDisplay = data.title + ' ' + data.fullName;
+        fullNameDisplay = data.title + '&nbsp;' + data.fullName.replace(/ /g, '&nbsp;');
     }
     
     // Build relationship line with endearment
-    let relationshipLine = data.relationship || '';
+    let relationshipLine = data.relationship ? data.relationship.replace(/ /g, '&nbsp;') : '';
     if (data.endearment && relationshipLine) {
-        relationshipLine += ' ' + data.endearment;
+        relationshipLine += '&nbsp;' + data.endearment.replace(/ /g, '&nbsp;');
     }
     
     // Build funeral info line
     let funeralLine = '';
     if (data.cemetery || data.hebrewDate) {
-        funeralLine = 'ההלוויה תתקיים';
+        funeralLine = 'ההלוויה&nbsp;תתקיים';
         if (data.dayOfWeek) {
             // Only show "היום" if the date is actually today
             if (data.isToday) {
-                funeralLine += ` היום יום ${data.dayOfWeek}`;
+                funeralLine += `&nbsp;היום&nbsp;יום&nbsp;${data.dayOfWeek}`;
             } else {
-                funeralLine += ` ביום ${data.dayOfWeek}`;
+                funeralLine += `&nbsp;ביום&nbsp;${data.dayOfWeek}`;
             }
         }
         if (data.hebrewDate) {
-            funeralLine += `, ${data.hebrewDate}`;
+            funeralLine += `,&nbsp;${data.hebrewDate.replace(/ /g, '&nbsp;')}`;
         }
         if (data.gregorianDate) {
-            // Use Unicode LTR embedding for proper parentheses display
-            funeralLine += ` \u200E(${data.gregorianDate})\u200E`;
+            // Wrap Gregorian date in LTR span so parentheses render correctly in RTL and in images/PDF
+            funeralLine += `&nbsp;<span class="ltr-date">(${data.gregorianDate})</span>`;
         }
     }
     
     let funeralLine2 = '';
     if (data.funeralTime || data.cemetery) {
         if (data.funeralTime) {
-            funeralLine2 = `בשעה ${data.funeralTime}`;
+            funeralLine2 = `בשעה&nbsp;${data.funeralTime}`;
         }
         if (data.cemetery) {
-            funeralLine2 += ` בבית העלמין ${data.cemetery}`;
+            funeralLine2 += `&nbsp;בבית&nbsp;העלמין&nbsp;${data.cemetery.replace(/ /g, '&nbsp;')}`;
         }
     }
     
@@ -424,7 +455,7 @@ function generatePreview() {
         <div class="obituary-border ${frameClass}">
             ${data.showBasd ? '<div class="obituary-basd">בס"ד</div>' : ''}
             
-            <div class="obituary-opening">${data.openingLine}</div>
+            <div class="obituary-opening">${data.openingLine.replace(/ /g, '&nbsp;')}</div>
             
             ${relationshipLine ? `<div class="obituary-relationship">${relationshipLine}</div>` : ''}
             
@@ -441,16 +472,22 @@ function generatePreview() {
             ` : ''}
             
             ${data.additionalNotes ? `
-                <div class="obituary-notes">${data.additionalNotes}</div>
+                <div class="obituary-notes">${data.additionalNotes.replace(/ /g, '&nbsp;')}</div>
             ` : ''}
             
             <div class="obituary-bottom-section">
-                ${data.signature ? `<div class="obituary-signature">${data.signature}</div>` : '<div></div>'}
+                ${data.signature ? `<div class="obituary-signature">${data.signature.replace(/ /g, '&nbsp;')}</div>` : '<div></div>'}
                 
                 ${data.shivaAddressLines.length > 0 ? `
                     <div class="obituary-shiva">
                         <div class="obituary-shiva-title">${data.shivaLocationText},</div>
-                        ${data.shivaAddressLines.map(line => `<div>${line}</div>`).join('')}
+                        ${data.shivaAddressLines
+                            .map(line => {
+                                // Wrap numbers to control spacing and then keep non-breaking spaces
+                                const withNumberSpans = line.replace(/\d+/g, '<span class="address-number">$&</span>');
+                                return `<div>${withNumberSpans.replace(/ /g, '&nbsp;')}</div>`;
+                            })
+                            .join('')}
                     </div>
                 ` : '<div></div>'}
             </div>
@@ -493,9 +530,11 @@ function printObituary() {
                     background: white;
                     font-family: 'Frank Ruhl Libre', serif;
                 }
+                /* שמירה על אותם ממדים כמו בתצוגה הרגילה כדי שלא "יימתח" לפי גודל המסך */
                 .obituary-preview {
-                    width: 100%;
-                    max-width: 90vw;
+                    width: 800px;
+                    max-width: 800px;
+                    min-width: 700px;
                     aspect-ratio: 1.4 / 1;
                     background: #ffffff;
                     color: #1a1a1a;
@@ -529,6 +568,7 @@ function printObituary() {
                 .obituary-shiva { text-align: right; font-size: 1rem; line-height: 1.6; font-weight: 600; order: 1; }
                 .obituary-shiva-title { font-weight: 700; }
                 .obituary-notes { font-size: 0.9rem; font-style: italic; margin: 15px 0; padding: 10px; background: #f9f9f9; border-radius: 4px; }
+                .ltr-date { direction: ltr; unicode-bidi: embed; display: inline-block; }
                 
                 /* Size classes */
                 .size-small .obituary-name { font-size: 2.2rem; }
@@ -567,14 +607,40 @@ async function downloadAsImage() {
     const element = document.getElementById('obituaryFinal');
     
     try {
+        // Wait to ensure fonts and layout are fully ready
+        if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
+        }
+        
+        const rect = element.getBoundingClientRect();
+        
         const canvas = await html2canvas(element, {
             backgroundColor: '#ffffff',
-            scale: 2,
-            useCORS: true
+            scale: 2, // מספיק חד, פחות עיוותים
+            useCORS: true,
+            letterRendering: true,
+            logging: false,
+            width: rect.width,
+            height: rect.height,
+            scrollX: -window.scrollX,
+            scrollY: -window.scrollY
         });
         
+        // Get deceased name and date for filename
+        const fullName = document.getElementById('fullName').value || 'נפטר';
+        const gregorianInput = document.getElementById('deathDateGregorian');
+        let dateString = '';
+        
+        if (gregorianInput.value) {
+            const dateObj = new Date(gregorianInput.value);
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const year = String(dateObj.getFullYear()).slice(-2);
+            dateString = `_${day}.${month}.${year}`;
+        }
+        
         const link = document.createElement('a');
-        link.download = 'מודעת-אבל.png';
+        link.download = `מודעת-אבל_${fullName}${dateString}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
     } catch (error) {
@@ -586,28 +652,20 @@ async function downloadAsImage() {
 // Update Preview Style
 function updatePreviewStyle() {
     const preview = document.getElementById('obituaryPreview');
+    const final = document.getElementById('obituaryFinal');
     const font = document.getElementById('previewFont').value;
     const frame = document.getElementById('previewFrame').value;
     const size = document.getElementById('previewSize').value;
     
+    // Apply styles to both preview and final
     applyStyles(preview, font, frame, size);
-    
-    // Sync with final controls
-    document.getElementById('finalFont').value = font;
-    document.getElementById('finalFrame').value = frame;
-    document.getElementById('finalSize').value = size;
-    
-    updateFinalStyle();
+    applyStyles(final, font, frame, size);
 }
 
-// Update Final Style
+// Update Final Style (kept for compatibility)
 function updateFinalStyle() {
-    const final = document.getElementById('obituaryFinal');
-    const font = document.getElementById('finalFont').value;
-    const frame = document.getElementById('finalFrame').value;
-    const size = document.getElementById('finalSize').value;
-    
-    applyStyles(final, font, frame, size);
+    // This function is kept for compatibility but now just calls updatePreviewStyle
+    updatePreviewStyle();
 }
 
 // Apply styles to preview element

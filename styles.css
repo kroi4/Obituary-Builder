@@ -227,6 +227,20 @@ body {
     box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.15);
 }
 
+.form-group input.input-error,
+.form-group select.input-error,
+.form-group textarea.input-error {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(232, 85, 85, 0.15);
+}
+
+.form-group input.input-error:focus,
+.form-group select.input-error:focus,
+.form-group textarea.input-error:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(232, 85, 85, 0.25);
+}
+
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: var(--color-text-dim);
@@ -789,6 +803,13 @@ body {
     margin: 3px 0;
 }
 
+/* Force left-to-right layout for Gregorian date with parentheses */
+.ltr-date {
+    direction: ltr;
+    unicode-bidi: embed;
+    display: inline-block;
+}
+
 .obituary-bottom-section {
     display: flex;
     justify-content: space-between;
@@ -816,6 +837,12 @@ body {
 
 .obituary-shiva-title {
     font-weight: 700;
+}
+
+/* Improve spacing around numbers in address lines (street number, apartment, floor) */
+.address-number {
+    margin-inline-start: 0.25em;
+    margin-inline-end: 0.1em;
 }
 
 .obituary-dates {
@@ -993,14 +1020,16 @@ body {
     
     .obituary-preview {
         box-shadow: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: unset !important;
+        width: 800px !important;       /* שמירה על אותו רוחב כמו בתצוגה */
+        max-width: 800px !important;
+        min-width: 700px !important;
         border-radius: 0;
         aspect-ratio: 1.4 / 1;
         height: auto;
         margin: 0 auto;
         page-break-inside: avoid;
+        page-break-before: avoid;
+        page-break-after: avoid;
         transform: none !important;
     }
     
@@ -1008,6 +1037,25 @@ body {
     .obituary-preview.size-medium,
     .obituary-preview.size-large {
         transform: none !important;
+    }
+
+    /* לוודא שרק אפליקציית יוצר המודעות מופיעה בהדפסה */
+    body > *:not(.app-container) {
+        display: none !important;
+    }
+
+    .app-container {
+        max-width: 100% !important;
+    }
+
+    #obituaryFinal {
+        box-shadow: none !important;
+        width: 800px !important;
+        max-width: 800px !important;
+        min-width: 700px !important;
+        page-break-before: avoid;
+        page-break-after: avoid;
+        page-break-inside: avoid;
     }
 }
 
