@@ -565,6 +565,14 @@ body {
     border-color: var(--color-accent);
 }
 
+.control-group.control-checkbox {
+    justify-content: center;
+}
+
+.control-group.control-checkbox .checkbox-label {
+    padding: 4px 0;
+}
+
 /* Preview Container */
 .preview-container {
     display: flex;

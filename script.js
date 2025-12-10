@@ -232,10 +232,16 @@ function getFormData() {
     let gregorianDate = '';
     let hebrewDate = '';
     let dayOfWeek = '';
+    let isToday = false;
     
     const gregorianInput = document.getElementById('deathDateGregorian');
     if (gregorianInput.value) {
         const dateObj = new Date(gregorianInput.value);
+        const today = new Date();
+        
+        // Check if the date is today
+        isToday = dateObj.toDateString() === today.toDateString();
+        
         const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
         dayOfWeek = days[dateObj.getDay()];
         
@@ -260,7 +266,7 @@ function getFormData() {
         shivaLocationText = 'יושבים שבעה ' + shivaLocationText;
     }
     
-    // Build shiva address lines
+    // Build shiva address - dynamic single or multi-line based on content
     const shivaStreet = document.getElementById('shivaStreet').value;
     const shivaNumber = document.getElementById('shivaNumber').value;
     const shivaApartment = document.getElementById('shivaApartment').value;
@@ -269,18 +275,57 @@ function getFormData() {
     const shivaCity = document.getElementById('shivaCity').value;
     
     let shivaAddressLines = [];
-    if (shivaStreet) {
-        let line1 = 'רחוב ' + shivaStreet;
-        if (shivaNumber) line1 += ' ' + shivaNumber;
-        if (shivaApartment) line1 += ', דירה ' + shivaApartment;
-        shivaAddressLines.push(line1);
+    if (shivaStreet || shivaCity) {
+        let addressParts = [];
         
-        let line2Parts = [];
-        if (shivaEntrance) line2Parts.push('כניסה ' + shivaEntrance);
-        if (shivaFloor) line2Parts.push('קומה ' + shivaFloor);
-        if (shivaCity) line2Parts.push(shivaCity);
-        if (line2Parts.length > 0) {
-            shivaAddressLines.push(line2Parts.join(', '));
+        // Street and number
+        if (shivaStreet) {
+            let streetPart = 'רחוב ' + shivaStreet;
+            if (shivaNumber) streetPart += ' ' + shivaNumber;
+            addressParts.push(streetPart);
+        }
+        
+        // Apartment
+        if (shivaApartment) {
+            addressParts.push('דירה ' + shivaApartment);
+        }
+        
+        // Entrance
+        if (shivaEntrance) {
+            addressParts.push('כניסה ' + shivaEntrance);
+        }
+        
+        // Floor
+        if (shivaFloor) {
+            addressParts.push('קומה ' + shivaFloor);
+        }
+        
+        // City
+        if (shivaCity) {
+            addressParts.push(shivaCity);
+        }
+        
+        // If we have many parts, split into two lines for readability
+        if (addressParts.length > 3) {
+            // First line: street + number + apartment
+            let line1Parts = [];
+            if (shivaStreet) {
+                let streetPart = 'רחוב ' + shivaStreet;
+                if (shivaNumber) streetPart += ' ' + shivaNumber;
+                line1Parts.push(streetPart);
+            }
+            if (shivaApartment) line1Parts.push('דירה ' + shivaApartment);
+            if (line1Parts.length > 0) shivaAddressLines.push(line1Parts.join(', '));
+            
+            // Second line: entrance + floor + city
+            let line2Parts = [];
+            if (shivaEntrance) line2Parts.push('כניסה ' + shivaEntrance);
+            if (shivaFloor) line2Parts.push('קומה ' + shivaFloor);
+            if (shivaCity) line2Parts.push(shivaCity);
+            if (line2Parts.length > 0) shivaAddressLines.push(line2Parts.join(', '));
+        } else {
+            // Single line for simple addresses
+            shivaAddressLines.push(addressParts.join(', '));
         }
     }
     
@@ -310,6 +355,7 @@ function getFormData() {
         gregorianDate,
         hebrewDate,
         dayOfWeek,
+        isToday,
         cemetery: document.getElementById('cemetery').value,
         funeralTime: funeralTimeFormatted,
         shivaLocationText,
@@ -340,7 +386,12 @@ function generatePreview() {
     if (data.cemetery || data.hebrewDate) {
         funeralLine = 'ההלוויה תתקיים';
         if (data.dayOfWeek) {
-            funeralLine += ` היום יום ${data.dayOfWeek}`;
+            // Only show "היום" if the date is actually today
+            if (data.isToday) {
+                funeralLine += ` היום יום ${data.dayOfWeek}`;
+            } else {
+                funeralLine += ` ביום ${data.dayOfWeek}`;
+            }
         }
         if (data.hebrewDate) {
             funeralLine += `, ${data.hebrewDate}`;
@@ -485,10 +536,30 @@ function applyStyles(element, font, frame, size) {
     element.classList.add('size-' + size);
 }
 
+// Toggle Basd visibility
+function toggleBasd() {
+    const previewBasd = document.getElementById('previewBasd');
+    const finalBasd = document.getElementById('finalBasd');
+    const showBasdForm = document.getElementById('showBasd');
+    
+    // Sync all checkboxes
+    const isChecked = event.target.checked;
+    if (previewBasd) previewBasd.checked = isChecked;
+    if (finalBasd) finalBasd.checked = isChecked;
+    if (showBasdForm) showBasdForm.checked = isChecked;
+    
+    // Update the preview
+    const basdElements = document.querySelectorAll('.obituary-basd');
+    basdElements.forEach(el => {
+        el.style.display = isChecked ? 'block' : 'none';
+    });
+}
+
 // Make functions globally available
 window.goToStep = goToStep;
 window.printObituary = printObituary;
 window.downloadAsImage = downloadAsImage;
 window.updatePreviewStyle = updatePreviewStyle;
 window.updateFinalStyle = updateFinalStyle;
+window.toggleBasd = toggleBasd;
 
