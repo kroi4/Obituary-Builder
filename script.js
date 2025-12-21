@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeForm();
     initializeDateToggle();
     initializeEndearmentToggle();
-    initializeShivaLocationToggle();
-    initializeAddressValidation();
+    initializeVisitingHours();
+    initializeShivaLocations();
     HebrewDate.initHebrewDateSelectors();
     initializeDateConversion();
     setDefaultDate();
@@ -79,19 +79,212 @@ function initializeEndearmentToggle() {
     });
 }
 
-// Initialize Shiva Location Toggle
-function initializeShivaLocationToggle() {
-    const shivaLocationSelect = document.getElementById('shivaLocation');
-    const customGroup = document.getElementById('customShivaLocationGroup');
+// Initialize Visiting Hours Toggle
+function initializeVisitingHours() {
+    const checkbox = document.getElementById('enableVisitingHours');
+    const inputsContainer = document.getElementById('visitingHoursInputs');
+    const addBtn = document.getElementById('addTimeSlotBtn');
     
-    shivaLocationSelect.addEventListener('change', () => {
-        if (shivaLocationSelect.value === 'custom') {
-            customGroup.classList.remove('hidden');
-            document.getElementById('customShivaLocation').focus();
-        } else {
-            customGroup.classList.add('hidden');
-        }
+    if (checkbox && inputsContainer) {
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                inputsContainer.classList.remove('hidden');
+            } else {
+                inputsContainer.classList.add('hidden');
+            }
+        });
+    }
+    
+    // Add time slot button
+    if (addBtn) {
+        addBtn.addEventListener('click', () => {
+            addTimeSlot();
+        });
+    }
+}
+
+// Time slot counter
+let timeSlotCounter = 1;
+const MAX_TIME_SLOTS = 3;
+
+// Add a new time slot
+function addTimeSlot() {
+    const container = document.getElementById('timeSlotsContainer');
+    const slots = container.querySelectorAll('.time-range');
+    
+    if (slots.length >= MAX_TIME_SLOTS) return;
+    
+    timeSlotCounter++;
+    
+    const newSlot = document.createElement('div');
+    newSlot.className = 'time-range';
+    newSlot.dataset.slotIndex = timeSlotCounter - 1;
+    
+    newSlot.innerHTML = `
+        <span class="time-label">משעה</span>
+        <input type="time" class="visiting-hours-from" value="10:00">
+        <span class="time-label">עד</span>
+        <input type="time" class="visiting-hours-to" value="20:00">
+        <button type="button" class="btn-remove-time-slot">✕</button>
+    `;
+    
+    // Add remove handler
+    const removeBtn = newSlot.querySelector('.btn-remove-time-slot');
+    removeBtn.addEventListener('click', () => {
+        newSlot.remove();
+        updateTimeSlotButton();
     });
+    
+    container.appendChild(newSlot);
+    updateTimeSlotButton();
+}
+
+// Update add button visibility based on slot count
+function updateTimeSlotButton() {
+    const container = document.getElementById('timeSlotsContainer');
+    const addBtn = document.getElementById('addTimeSlotBtn');
+    const slots = container.querySelectorAll('.time-range');
+    
+    if (addBtn) {
+        if (slots.length >= MAX_TIME_SLOTS) {
+            addBtn.style.display = 'none';
+        } else {
+            addBtn.style.display = 'flex';
+        }
+    }
+}
+
+// Location counter for unique IDs
+let locationCounter = 1;
+
+// Initialize Shiva Locations
+function initializeShivaLocations() {
+    const container = document.getElementById('shivaLocationsContainer');
+    const addBtn = document.getElementById('addLocationBtn');
+    
+    // Initialize existing location card event listeners
+    initializeLocationCard(container.querySelector('.shiva-location-card'));
+    
+    // Add location button
+    if (addBtn) {
+        addBtn.addEventListener('click', () => {
+            addNewLocation();
+        });
+    }
+}
+
+// Initialize a single location card's event listeners
+function initializeLocationCard(card) {
+    if (!card) return;
+    
+    const locationSelect = card.querySelector('.shiva-location-select');
+    const customGroup = card.querySelector('.custom-location-group');
+    
+    if (locationSelect && customGroup) {
+        locationSelect.addEventListener('change', () => {
+            if (locationSelect.value === 'custom') {
+                customGroup.classList.remove('hidden');
+                customGroup.querySelector('input').focus();
+            } else {
+                customGroup.classList.add('hidden');
+            }
+        });
+    }
+    
+    // Remove button handler
+    const removeBtn = card.querySelector('.btn-remove-location');
+    if (removeBtn) {
+        removeBtn.addEventListener('click', () => {
+            removeLocation(card);
+        });
+    }
+}
+
+// Add a new location card
+function addNewLocation() {
+    const container = document.getElementById('shivaLocationsContainer');
+    locationCounter++;
+    
+    const newCard = document.createElement('div');
+    newCard.className = 'shiva-location-card';
+    newCard.dataset.locationIndex = locationCounter - 1;
+    
+    newCard.innerHTML = `
+        <div class="location-header">
+            <span class="location-number">מיקום ${locationCounter}</span>
+            <button type="button" class="btn-remove-location">הסר</button>
+        </div>
+        
+        <div class="form-group">
+            <select class="shiva-location-select">
+                <option value="בבית המנוח">יושבים שבעה בבית המנוח</option>
+                <option value="בבית המנוחה">יושבים שבעה בבית המנוחה</option>
+                <option value="בבית">יושבים שבעה בבית</option>
+                <option value="custom">טקסט מותאם אישית...</option>
+            </select>
+        </div>
+        <div class="form-group hidden custom-location-group">
+            <input type="text" class="custom-shiva-location" placeholder="טקסט מותאם אישית">
+        </div>
+        
+        <div class="days-selector-group">
+            <label>ימים:</label>
+            <div class="days-selector">
+                <label class="day-checkbox"><input type="checkbox" value="א׳"><span>א׳</span></label>
+                <label class="day-checkbox"><input type="checkbox" value="ב׳"><span>ב׳</span></label>
+                <label class="day-checkbox"><input type="checkbox" value="ג׳"><span>ג׳</span></label>
+                <label class="day-checkbox"><input type="checkbox" value="ד׳"><span>ד׳</span></label>
+                <label class="day-checkbox"><input type="checkbox" value="ה׳"><span>ה׳</span></label>
+                <label class="day-checkbox"><input type="checkbox" value="ו׳"><span>ו׳</span></label>
+                <label class="day-checkbox"><input type="checkbox" value="ש׳"><span>ש׳</span></label>
+            </div>
+        </div>
+        
+        <div class="address-inputs">
+            <input type="text" class="shiva-street" placeholder="רחוב">
+            <div class="address-row">
+                <input type="text" class="shiva-number" placeholder="מספר בית">
+                <input type="text" class="shiva-apartment" placeholder="דירה">
+            </div>
+            <div class="address-row">
+                <input type="text" class="shiva-entrance" placeholder="כניסה">
+                <input type="text" class="shiva-floor" placeholder="קומה">
+            </div>
+            <input type="text" class="shiva-city" placeholder="עיר">
+        </div>
+    `;
+    
+    container.appendChild(newCard);
+    initializeLocationCard(newCard);
+    updateLocationNumbers();
+}
+
+// Remove a location card
+function removeLocation(card) {
+    const container = document.getElementById('shivaLocationsContainer');
+    const cards = container.querySelectorAll('.shiva-location-card');
+    
+    // Don't remove if it's the only one
+    if (cards.length <= 1) return;
+    
+    card.remove();
+    updateLocationNumbers();
+}
+
+// Update location card numbers after add/remove
+function updateLocationNumbers() {
+    const container = document.getElementById('shivaLocationsContainer');
+    const cards = container.querySelectorAll('.shiva-location-card');
+    
+    cards.forEach((card, index) => {
+        const numberSpan = card.querySelector('.location-number');
+        if (numberSpan) {
+            numberSpan.textContent = `מיקום ${index + 1}`;
+        }
+        card.dataset.locationIndex = index;
+    });
+    
+    locationCounter = cards.length;
 }
 
 // Initialize Address Validation
@@ -190,7 +383,8 @@ function validateStep(step) {
         const fullName = document.getElementById('fullName').value;
         
         // Clear previous error states
-        document.getElementById('shivaCity').classList.remove('input-error');
+        // Clear previous error states
+        // Error states are cleared per location card below
         
         if (!openingLine) {
             alert('נא לבחור שורת פתיחה');
@@ -204,22 +398,37 @@ function validateStep(step) {
             return false;
         }
         
-        // Validate shiva address: if any address field is filled, city is required
-        const shivaStreet = document.getElementById('shivaStreet').value.trim();
-        const shivaNumber = document.getElementById('shivaNumber').value.trim();
-        const shivaApartment = document.getElementById('shivaApartment').value.trim();
-        const shivaEntrance = document.getElementById('shivaEntrance').value.trim();
-        const shivaFloor = document.getElementById('shivaFloor').value.trim();
-        const shivaCity = document.getElementById('shivaCity').value.trim();
+        // Validate shiva locations
+        const locationCards = document.querySelectorAll('.shiva-location-card');
+        let isValid = true;
         
-        const hasAddressDetails = shivaStreet || shivaNumber || shivaApartment || shivaEntrance || shivaFloor;
+        locationCards.forEach((card, index) => {
+            const cityInput = card.querySelector('.shiva-city');
+            const city = cityInput.value.trim();
+            
+            // Check if any other address field is filled in this card
+            const street = card.querySelector('.shiva-street').value.trim();
+            const number = card.querySelector('.shiva-number').value.trim();
+            const apartment = card.querySelector('.shiva-apartment').value.trim();
+            const entrance = card.querySelector('.shiva-entrance').value.trim();
+            const floor = card.querySelector('.shiva-floor').value.trim();
+            
+            const hasAddressDetails = street || number || apartment || entrance || floor;
+            
+            // Clear error style
+            cityInput.classList.remove('input-error');
+            
+            if (hasAddressDetails && !city) {
+                cityInput.classList.add('input-error');
+                if (isValid) { // Only alert once
+                    alert(`נא להזין עיר לכתובת השבעה (מיקום ${index + 1})`);
+                    cityInput.focus();
+                }
+                isValid = false;
+            }
+        });
         
-        if (hasAddressDetails && !shivaCity) {
-            document.getElementById('shivaCity').classList.add('input-error');
-            alert('נא להזין עיר לכתובת השבעה');
-            document.getElementById('shivaCity').focus();
-            return false;
-        }
+        if (!isValid) return false;
         
         return true;
     }
@@ -288,76 +497,73 @@ function getFormData() {
         }
     }
     
-    // Get shiva location text
-    const shivaLocationSelect = document.getElementById('shivaLocation');
-    let shivaLocationText = shivaLocationSelect.value;
-    if (shivaLocationText === 'custom') {
-        shivaLocationText = document.getElementById('customShivaLocation').value.replace(/ /g, '&nbsp;');
-    } else {
-        shivaLocationText = 'יושבים&nbsp;שבעה&nbsp;' + shivaLocationText.replace(/ /g, '&nbsp;');
-    }
+    // Get shiva locations (multiple)
+    const shivaLocations = [];
+    const locationCards = document.querySelectorAll('.shiva-location-card');
     
-    // Build shiva address - dynamic single or multi-line based on content
-    const shivaStreet = document.getElementById('shivaStreet').value;
-    const shivaNumber = document.getElementById('shivaNumber').value;
-    const shivaApartment = document.getElementById('shivaApartment').value;
-    const shivaEntrance = document.getElementById('shivaEntrance').value;
-    const shivaFloor = document.getElementById('shivaFloor').value;
-    const shivaCity = document.getElementById('shivaCity').value;
-    
-    let shivaAddressLines = [];
-    if (shivaStreet || shivaCity) {
-        let addressParts = [];
+    locationCards.forEach(card => {
+        const locationSelect = card.querySelector('.shiva-location-select');
+        let locationText = locationSelect.value;
         
-        // Street and number
-        if (shivaStreet) {
-            let streetPart = 'רחוב ' + shivaStreet;
-            if (shivaNumber) streetPart += ' ' + shivaNumber;
-            addressParts.push(streetPart);
-        }
-        
-        // Apartment
-        if (shivaApartment) {
-            addressParts.push('דירה ' + shivaApartment);
-        }
-        
-        // Entrance
-        if (shivaEntrance) {
-            addressParts.push('כניסה ' + shivaEntrance);
-        }
-        
-        // Floor
-        if (shivaFloor) {
-            addressParts.push('קומה ' + shivaFloor);
-        }
-        
-        // City
-        if (shivaCity) {
-            addressParts.push(shivaCity);
-        }
-        
-        // If we have many parts, split into two lines for readability
-        if (addressParts.length > 3) {
-            // First line: street + number + apartment
-            let line1Parts = [];
-            if (shivaStreet) {
-                let streetPart = 'רחוב ' + shivaStreet;
-                if (shivaNumber) streetPart += ' ' + shivaNumber;
-                line1Parts.push(streetPart);
-            }
-            if (shivaApartment) line1Parts.push('דירה ' + shivaApartment);
-            if (line1Parts.length > 0) shivaAddressLines.push(line1Parts.join(', '));
-            
-            // Second line: entrance + floor + city
-            let line2Parts = [];
-            if (shivaEntrance) line2Parts.push('כניסה ' + shivaEntrance);
-            if (shivaFloor) line2Parts.push('קומה ' + shivaFloor);
-            if (shivaCity) line2Parts.push(shivaCity);
-            if (line2Parts.length > 0) shivaAddressLines.push(line2Parts.join(', '));
+        if (locationText === 'custom') {
+            const customInput = card.querySelector('.custom-shiva-location');
+            locationText = customInput ? customInput.value : '';
         } else {
-            // Single line for simple addresses
-            shivaAddressLines.push(addressParts.join(', '));
+            locationText = 'יושבים שבעה ' + locationText;
         }
+        
+        // Get selected days
+        const selectedDays = [];
+        const dayCheckboxes = card.querySelectorAll('.day-checkbox input:checked');
+        dayCheckboxes.forEach(cb => selectedDays.push(cb.value));
+        
+        // Get address
+        const street = card.querySelector('.shiva-street')?.value || '';
+        const number = card.querySelector('.shiva-number')?.value || '';
+        const apartment = card.querySelector('.shiva-apartment')?.value || '';
+        const entrance = card.querySelector('.shiva-entrance')?.value || '';
+        const floor = card.querySelector('.shiva-floor')?.value || '';
+        const city = card.querySelector('.shiva-city')?.value || '';
+        
+        // Build address lines
+        let addressLines = [];
+        if (street || city) {
+            let addressParts = [];
+            
+            if (street) {
+                let streetPart = 'רחוב ' + street;
+                if (number) streetPart += ' ' + number;
+                addressParts.push(streetPart);
+            }
+            if (apartment) addressParts.push('דירה ' + apartment);
+            if (entrance) addressParts.push('כניסה ' + entrance);
+            if (floor) addressParts.push('קומה ' + floor);
+            if (city) addressParts.push(city);
+            
+            addressLines.push(addressParts.join(', '));
+        }
+        
+        shivaLocations.push({
+            locationText: locationText.replace(/ /g, '&nbsp;'),
+            days: selectedDays,
+            daysFormatted: formatDaysRange(selectedDays),
+            addressLines
+        });
+    });
+    
+    // Get visiting hours (multiple slots)
+    const visitingHoursEnabled = document.getElementById('enableVisitingHours')?.checked || false;
+    const visitingHoursSlots = [];
+    
+    if (visitingHoursEnabled) {
+        const timeSlots = document.querySelectorAll('#timeSlotsContainer .time-range');
+        timeSlots.forEach(slot => {
+            const from = slot.querySelector('.visiting-hours-from')?.value || '';
+            const to = slot.querySelector('.visiting-hours-to')?.value || '';
+            if (from && to) {
+                visitingHoursSlots.push({ from, to });
+            }
+        });
     }
     
     // Get funeral time
@@ -389,11 +595,42 @@ function getFormData() {
         isToday,
         cemetery: document.getElementById('cemetery').value,
         funeralTime: funeralTimeFormatted,
-        shivaLocationText,
-        shivaAddressLines,
+        shivaLocations,
+        visitingHours: {
+            enabled: visitingHoursEnabled,
+            slots: visitingHoursSlots
+        },
         signature: document.getElementById('signature').value,
         additionalNotes: document.getElementById('additionalNotes').value
     };
+}
+
+// Format days range (e.g., "א׳-ג׳" or "א׳, ג׳, ה׳")
+function formatDaysRange(days) {
+    if (days.length === 0) return '';
+    if (days.length === 7) return ''; // All days, no need to show
+    
+    const allDays = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'];
+    const indices = days.map(d => allDays.indexOf(d)).filter(i => i !== -1).sort((a, b) => a - b);
+    
+    if (indices.length === 0) return '';
+    
+    // Check if consecutive
+    let isConsecutive = true;
+    for (let i = 1; i < indices.length; i++) {
+        if (indices[i] !== indices[i - 1] + 1) {
+            isConsecutive = false;
+            break;
+        }
+    }
+    
+    if (isConsecutive && indices.length > 2) {
+        return `ימים ${allDays[indices[0]]}-${allDays[indices[indices.length - 1]]}`;
+    } else if (indices.length === 1) {
+        return `יום ${allDays[indices[0]]}`;
+    } else {
+        return `ימים ${days.join(', ')}`; 
+    }
 }
 
 // Generate Preview
@@ -478,16 +715,28 @@ function generatePreview() {
             <div class="obituary-bottom-section">
                 ${data.signature ? `<div class="obituary-signature">${data.signature.replace(/ /g, '&nbsp;')}</div>` : '<div></div>'}
                 
-                ${data.shivaAddressLines.length > 0 ? `
+                ${data.shivaLocations.length > 0 && data.shivaLocations.some(loc => loc.addressLines.length > 0) ? `
                     <div class="obituary-shiva">
-                        <div class="obituary-shiva-title">${data.shivaLocationText},</div>
-                        ${data.shivaAddressLines
-                            .map(line => {
-                                // Wrap numbers to control spacing and then keep non-breaking spaces
-                                const withNumberSpans = line.replace(/\d+/g, '<span class="address-number">$&</span>');
-                                return `<div>${withNumberSpans.replace(/ /g, '&nbsp;')}</div>`;
-                            })
-                            .join('')}
+                        <div class="obituary-shiva-title">יושבים&nbsp;שבעה,</div>
+                        ${data.shivaLocations.map((loc, index) => {
+                            if (loc.addressLines.length === 0) return '';
+                            return `
+                                <div class="obituary-shiva-location ${data.shivaLocations.filter(l => l.addressLines.length > 0).length > 1 ? 'multi-location' : ''}">
+                                    ${loc.addressLines
+                                        .map(line => {
+                                            const withNumberSpans = line.replace(/\d+/g, '<span class="address-number">$&</span>');
+                                            return `<div>${withNumberSpans.replace(/ /g, '&nbsp;')}</div>`;
+                                        })
+                                        .join('')}
+                                    ${loc.daysFormatted ? `<div class="obituary-shiva-days">${loc.daysFormatted}</div>` : ''}
+                                </div>
+                            `;
+                        }).join('')}
+                        ${data.visitingHours.enabled && data.visitingHours.slots.length > 0 ? `
+                            <div class="obituary-visiting-hours">
+                                שעות&nbsp;קבלת&nbsp;קהל:&nbsp;${data.visitingHours.slots.map(s => `${s.from}-${s.to}`).join(',&nbsp;')}
+                            </div>
+                        ` : ''}
                     </div>
                 ` : '<div></div>'}
             </div>
