@@ -13,23 +13,25 @@
     --color-accent-dim: #a08942;
     --color-error: #e85555;
     --color-success: #5cb85c;
-    
+
     --font-display: 'Frank Ruhl Libre', 'David Libre', serif;
     --font-body: 'David Libre', 'Frank Ruhl Libre', serif;
-    
+
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-    
+
     --radius-sm: 4px;
     --radius-md: 8px;
     --radius-lg: 12px;
-    
+
     --transition: 0.2s ease;
 }
 
 /* Reset & Base */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -45,7 +47,7 @@ body {
     color: var(--color-text);
     line-height: 1.6;
     min-height: 100vh;
-    background-image: 
+    background-image:
         radial-gradient(ellipse at top, #252530 0%, transparent 50%),
         radial-gradient(ellipse at bottom, #1f1f28 0%, transparent 50%);
 }
@@ -176,6 +178,7 @@ body {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -195,7 +198,7 @@ body {
     margin-bottom: 24px;
 }
 
-.form-group > label:not(.checkbox-label):not(.radio-label) {
+.form-group>label:not(.checkbox-label):not(.radio-label) {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
@@ -312,11 +315,11 @@ body {
     border-color: var(--color-accent);
 }
 
-.radio-label input[type="radio"]:checked + .radio-custom {
+.radio-label input[type="radio"]:checked+.radio-custom {
     border-color: var(--color-accent);
 }
 
-.radio-label input[type="radio"]:checked + .radio-custom::after {
+.radio-label input[type="radio"]:checked+.radio-custom::after {
     opacity: 1;
     transform: scale(1);
 }
@@ -414,6 +417,234 @@ body {
     gap: 10px;
 }
 
+/* Shiva Section */
+.shiva-section {
+    background: var(--color-bg-secondary);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.shiva-section>label:first-child {
+    display: block;
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--color-text);
+}
+
+/* Visiting Hours */
+.visiting-hours-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.visiting-hours-inputs {
+    margin-top: 12px;
+}
+
+.time-range {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.time-label {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.time-range input[type="time"] {
+    padding: 10px 14px;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    width: 130px;
+}
+
+.time-range input[type="time"]:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.time-slots-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-add-time-slot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    align-self: flex-start;
+}
+
+.btn-add-time-slot:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.btn-remove-time-slot {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-remove-time-slot:hover {
+    color: var(--color-error);
+    background: rgba(232, 85, 85, 0.1);
+}
+
+/* Shiva Locations */
+.shiva-locations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.shiva-location-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    position: relative;
+}
+
+.location-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.location-number {
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: 0.95rem;
+}
+
+.btn-remove-location {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.btn-remove-location:hover {
+    color: var(--color-error);
+    background: rgba(232, 85, 85, 0.1);
+}
+
+/* Days Selector */
+.days-selector-group {
+    margin: 16px 0;
+}
+
+.days-selector-group>label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.days-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.day-checkbox {
+    display: inline-flex;
+    cursor: pointer;
+}
+
+.day-checkbox input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.day-checkbox span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 32px;
+    padding: 0 10px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    transition: var(--transition);
+}
+
+.day-checkbox:hover span {
+    border-color: var(--color-accent);
+}
+
+.day-checkbox input:checked+span {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: 500;
+}
+
+/* Add Location Button */
+.btn-add-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-add-location:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.btn-add-location .btn-icon {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
 /* Hidden Class */
 .hidden {
     display: none !important;
@@ -467,12 +698,12 @@ body {
     border-color: var(--color-accent);
 }
 
-.checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+.checkbox-label input[type="checkbox"]:checked+.checkbox-custom {
     border-color: var(--color-accent);
     background: var(--color-accent);
 }
 
-.checkbox-label input[type="checkbox"]:checked + .checkbox-custom svg {
+.checkbox-label input[type="checkbox"]:checked+.checkbox-custom svg {
     opacity: 1;
     transform: scale(1);
     stroke: var(--color-bg);
@@ -839,6 +1070,41 @@ body {
     font-weight: 700;
 }
 
+/* Multi-location shiva styling */
+.obituary-shiva-location {
+    margin-bottom: 8px;
+}
+
+.obituary-shiva-location:last-of-type {
+    margin-bottom: 0;
+}
+
+.obituary-shiva-location.multi-location {
+    padding-bottom: 6px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
+}
+
+.obituary-shiva-location.multi-location:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.obituary-shiva-days {
+    font-size: 0.9em;
+    color: #555;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.obituary-visiting-hours {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #ddd;
+    font-weight: 600;
+}
+
 /* Improve spacing around numbers in address lines (street number, apartment, floor) */
 .address-number {
     margin-inline-start: 0.25em;
@@ -914,50 +1180,50 @@ body {
     .app-header h1 {
         font-size: 1.8rem;
     }
-    
+
     .progress-container {
         gap: 5px;
     }
-    
+
     .progress-line {
         flex: 0 0 30px;
     }
-    
+
     .step-label {
         font-size: 0.75rem;
     }
-    
+
     .step-circle {
         width: 32px;
         height: 32px;
         font-size: 0.9rem;
     }
-    
+
     #obituaryForm {
         padding: 20px 15px;
     }
-    
+
     .address-row {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .hebrew-date-selects {
         grid-template-columns: 1fr;
     }
-    
+
     .form-actions {
         flex-direction: column;
     }
-    
+
     .btn {
         width: 100%;
         justify-content: center;
     }
-    
+
     .obituary-preview {
         padding: 30px 20px;
     }
-    
+
     .obituary-name {
         font-size: 1.5rem;
     }
@@ -969,23 +1235,23 @@ body {
         size: A4 landscape;
         margin: 10mm;
     }
-    
+
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
-    
+
     body {
         background: white !important;
         margin: 0;
         padding: 0;
     }
-    
+
     .app-container {
         padding: 0;
         max-width: none;
     }
-    
+
     .app-header,
     .progress-container,
     .form-actions,
@@ -996,19 +1262,19 @@ body {
     #step2 {
         display: none !important;
     }
-    
+
     #step3 {
         display: block !important;
     }
-    
+
     .form-section {
         animation: none;
     }
-    
+
     .main-content {
         padding: 0;
     }
-    
+
     .preview-container {
         padding: 0;
         overflow: visible;
@@ -1017,10 +1283,11 @@ body {
         align-items: center;
         min-height: auto;
     }
-    
+
     .obituary-preview {
         box-shadow: none !important;
-        width: 800px !important;       /* שמירה על אותו רוחב כמו בתצוגה */
+        width: 800px !important;
+        /* שמירה על אותו רוחב כמו בתצוגה */
         max-width: 800px !important;
         min-width: 700px !important;
         border-radius: 0;
@@ -1032,7 +1299,7 @@ body {
         page-break-after: avoid;
         transform: none !important;
     }
-    
+
     .obituary-preview.size-small,
     .obituary-preview.size-medium,
     .obituary-preview.size-large {
@@ -1040,7 +1307,7 @@ body {
     }
 
     /* לוודא שרק אפליקציית יוצר המודעות מופיעה בהדפסה */
-    body > *:not(.app-container) {
+    body>*:not(.app-container) {
         display: none !important;
     }
 
@@ -1090,4 +1357,3 @@ body {
         overflow-x: auto;
     }
 }
-

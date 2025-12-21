@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,11 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=David+Libre:wght@400;500;700&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=David+Libre:wght@400;500;700&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header -->
@@ -55,7 +59,10 @@
                     <div class="form-group">
                         <label class="checkbox-label" for="showBasd">
                             <input type="checkbox" id="showBasd" checked>
-                            <span class="checkbox-custom"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"></polyline></svg></span><span class="checkbox-text">הצג בס"ד</span>
+                            <span class="checkbox-custom"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="2,6 5,9 10,3"></polyline>
+                                </svg></span><span class="checkbox-text">הצג בס"ד</span>
                         </label>
                     </div>
 
@@ -63,11 +70,15 @@
                     <div class="form-group">
                         <label for="openingLine">שורת פתיחה</label>
                         <select id="openingLine" required>
-                            <option value="בצער רב וביגון קודר אנו מודיעים על פטירתו/פטירתה של" selected>בצער רב וביגון קודר אנו מודיעים על פטירתו/פטירתה של</option>
+                            <option value="בצער רב וביגון קודר אנו מודיעים על פטירתו/פטירתה של" selected>בצער רב וביגון
+                                קודר אנו מודיעים על פטירתו/פטירתה של</option>
                             <option value="אנו מודיעים על פטירתו/פטירתה של">אנו מודיעים על פטירתו/פטירתה של</option>
-                            <option value="בצער עמוק אנו מודיעים על פטירתו/פטירתה של">בצער עמוק אנו מודיעים על פטירתו/פטירתה של</option>
-                            <option value="הלומי צער וכואבים אנו מודיעים על פטירתו/פטירתה של">הלומי צער וכואבים אנו מודיעים על פטירתו/פטירתה של</option>
-                            <option value="המומים, כואבים ודואבים אנו מודיעים על פטירתו/פטירתה של">המומים, כואבים ודואבים אנו מודיעים על פטירתו/פטירתה של</option>
+                            <option value="בצער עמוק אנו מודיעים על פטירתו/פטירתה של">בצער עמוק אנו מודיעים על
+                                פטירתו/פטירתה של</option>
+                            <option value="הלומי צער וכואבים אנו מודיעים על פטירתו/פטירתה של">הלומי צער וכואבים אנו
+                                מודיעים על פטירתו/פטירתה של</option>
+                            <option value="המומים, כואבים ודואבים אנו מודיעים על פטירתו/פטירתה של">המומים, כואבים
+                                ודואבים אנו מודיעים על פטירתו/פטירתה של</option>
                         </select>
                     </div>
 
@@ -144,7 +155,7 @@
                             <button type="button" class="date-toggle active" data-type="gregorian">לועזי</button>
                             <button type="button" class="date-toggle" data-type="hebrew">עברי</button>
                         </div>
-                        
+
                         <div class="date-inputs">
                             <div class="date-input-group" id="gregorianDate">
                                 <input type="date" id="deathDateGregorian">
@@ -163,7 +174,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="converted-date">
                             <span class="converted-label">תאריך מקביל:</span>
                             <span id="convertedDateDisplay">-</span>
@@ -182,32 +193,96 @@
                         <input type="time" id="funeralTime">
                     </div>
 
-                    <!-- Shiva Address -->
-                    <div class="form-group">
-                        <label for="shivaAddress">כתובת השבעה</label>
-                        <div class="form-group">
-                            <select id="shivaLocation">
-                                <option value="בבית המנוח">יושבים שבעה בבית המנוח</option>
-                                <option value="בבית המנוחה">יושבים שבעה בבית המנוחה</option>
-                                <option value="בבית">יושבים שבעה בבית</option>
-                                <option value="custom">טקסט מותאם אישית...</option>
-                            </select>
-                        </div>
-                        <div class="form-group hidden" id="customShivaLocationGroup">
-                            <input type="text" id="customShivaLocation" placeholder="טקסט מותאם אישית">
-                        </div>
-                        <div class="address-inputs">
-                            <input type="text" id="shivaStreet" placeholder="רחוב">
-                            <div class="address-row">
-                                <input type="text" id="shivaNumber" placeholder="מספר בית">
-                                <input type="text" id="shivaApartment" placeholder="דירה">
+                    <!-- Shiva Section -->
+                    <div class="form-group shiva-section">
+                        <label>פרטי השבעה</label>
+
+                        <!-- Visiting Hours -->
+                        <div class="visiting-hours-section">
+                            <label class="checkbox-label" for="enableVisitingHours">
+                                <input type="checkbox" id="enableVisitingHours">
+                                <span class="checkbox-custom"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="2,6 5,9 10,3"></polyline>
+                                    </svg></span><span class="checkbox-text">שעות קבלת קהל</span>
+                            </label>
+                            <div class="visiting-hours-inputs hidden" id="visitingHoursInputs">
+                                <div class="time-slots-container" id="timeSlotsContainer">
+                                    <div class="time-range" data-slot-index="0">
+                                        <span class="time-label">משעה</span>
+                                        <input type="time" class="visiting-hours-from" value="10:00">
+                                        <span class="time-label">עד</span>
+                                        <input type="time" class="visiting-hours-to" value="20:00">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-add-time-slot" id="addTimeSlotBtn">
+                                    <span class="btn-icon">+</span>
+                                    הוסף משבצת זמן נוספת
+                                </button>
                             </div>
-                            <div class="address-row">
-                                <input type="text" id="shivaEntrance" placeholder="כניסה">
-                                <input type="text" id="shivaFloor" placeholder="קומה">
-                            </div>
-                            <input type="text" id="shivaCity" placeholder="עיר">
                         </div>
+
+                        <!-- Shiva Locations -->
+                        <div class="shiva-locations-container" id="shivaLocationsContainer">
+                            <!-- Location 1 -->
+                            <div class="shiva-location-card" data-location-index="0">
+                                <div class="location-header">
+                                    <span class="location-number">מיקום 1</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <select class="shiva-location-select">
+                                        <option value="בבית המנוח">יושבים שבעה בבית המנוח</option>
+                                        <option value="בבית המנוחה">יושבים שבעה בבית המנוחה</option>
+                                        <option value="בבית">יושבים שבעה בבית</option>
+                                        <option value="custom">טקסט מותאם אישית...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group hidden custom-location-group">
+                                    <input type="text" class="custom-shiva-location" placeholder="טקסט מותאם אישית">
+                                </div>
+
+                                <!-- Days Selector -->
+                                <div class="days-selector-group">
+                                    <label>ימים:</label>
+                                    <div class="days-selector">
+                                        <label class="day-checkbox"><input type="checkbox" value="א׳"
+                                                checked><span>א׳</span></label>
+                                        <label class="day-checkbox"><input type="checkbox" value="ב׳"
+                                                checked><span>ב׳</span></label>
+                                        <label class="day-checkbox"><input type="checkbox" value="ג׳"
+                                                checked><span>ג׳</span></label>
+                                        <label class="day-checkbox"><input type="checkbox" value="ד׳"
+                                                checked><span>ד׳</span></label>
+                                        <label class="day-checkbox"><input type="checkbox" value="ה׳"
+                                                checked><span>ה׳</span></label>
+                                        <label class="day-checkbox"><input type="checkbox" value="ו׳"
+                                                checked><span>ו׳</span></label>
+                                        <label class="day-checkbox"><input type="checkbox"
+                                                value="ש׳"><span>ש׳</span></label>
+                                    </div>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="address-inputs">
+                                    <input type="text" class="shiva-street" placeholder="רחוב">
+                                    <div class="address-row">
+                                        <input type="text" class="shiva-number" placeholder="מספר בית">
+                                        <input type="text" class="shiva-apartment" placeholder="דירה">
+                                    </div>
+                                    <div class="address-row">
+                                        <input type="text" class="shiva-entrance" placeholder="כניסה">
+                                        <input type="text" class="shiva-floor" placeholder="קומה">
+                                    </div>
+                                    <input type="text" class="shiva-city" placeholder="עיר">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-add-location" id="addLocationBtn">
+                            <span class="btn-icon">+</span>
+                            הוסף מיקום נוסף
+                        </button>
                     </div>
 
                     <!-- Signature -->
@@ -219,7 +294,8 @@
                     <!-- Additional Notes -->
                     <div class="form-group">
                         <label for="additionalNotes">הערות נוספות (אופציונלי)</label>
-                        <textarea id="additionalNotes" rows="3" placeholder="מידע נוסף שברצונכם להוסיף למודעה"></textarea>
+                        <textarea id="additionalNotes" rows="3"
+                            placeholder="מידע נוסף שברצונכם להוסיף למודעה"></textarea>
                     </div>
 
                     <div class="form-actions">
@@ -264,11 +340,14 @@
                     <div class="control-group control-checkbox">
                         <label class="checkbox-label" for="previewBasd">
                             <input type="checkbox" id="previewBasd" checked onchange="toggleBasd()">
-                            <span class="checkbox-custom"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"></polyline></svg></span><span class="checkbox-text">בס"ד</span>
+                            <span class="checkbox-custom"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="2,6 5,9 10,3"></polyline>
+                                </svg></span><span class="checkbox-text">בס"ד</span>
                         </label>
                     </div>
                 </div>
-                
+
                 <div class="preview-container">
                     <div class="obituary-preview" id="obituaryPreview">
                         <!-- Preview will be generated here -->
@@ -320,5 +399,5 @@
     <script src="hebrew-date.js"></script>
     <script src="script.js"></script>
 </body>
-</html>
 
+</html>
